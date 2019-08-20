@@ -1,16 +1,22 @@
 //Connect sensor to I2C port of Grove shield
-//See PDF design guidelines on how to install the sensor
-//auto-calibration for first 7 days
 //RGB ring to D6
 //LCD to I2C
 
 //USER SETTINGS
-bool IS_CALIBRATED = true;//set to true once calibrated. NEED TO DO ONCE ONLY IN AIR CON ROOM
+bool IS_CALIBRATED = true;//set to true once calibrated. NEED TO DO ONCE ONLY 
 int forcedCalibVal = 435;//forced calibration value in ppm
+
+/*
+ * Location: Chinatown Point main entrance
+ * calibrated value -> measured value 
+ * 445 -> 375
+ * 435 -> 425
+ */
+
 int heightasl = 10;//height above sea level in metres
 int ambientAirPres = 1010;//air pressure in mBar
-int lowerCO2bound = 380; //to constrain the CO2 reading for meaningful pixel mapping
-int upperCO2bound = 450; //to constrain the CO2 reading for meaningful pixel mapping
+int lowerCO2bound = 300; //to constrain the CO2 reading for meaningful pixel mapping
+int upperCO2bound = 500; //to constrain the CO2 reading for meaningful pixel mapping
 uint8_t wait = 100; //delay for the LED ring light sequence
 
 #include "SparkFun_SCD30_Arduino_Library.h"
@@ -145,5 +151,5 @@ void loop()
     }
     else Serial.println("Initialising sensor ... ");
   }
-  delay(2000);//note that the sensor already has delay
+  delay(2000);//min of 2 sec
 }
