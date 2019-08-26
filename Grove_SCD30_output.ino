@@ -16,7 +16,7 @@ int forcedCalibVal = 435;//forced calibration value in ppm
 int heightasl = 10;//height above sea level in metres
 int ambientAirPres = 1010;//air pressure in mBar
 int lowerCO2bound = 300; //to constrain the CO2 reading for meaningful pixel mapping
-int upperCO2bound = 500; //to constrain the CO2 reading for meaningful pixel mapping
+int upperCO2bound = 1000; //to constrain the CO2 reading for meaningful pixel mapping
 uint8_t wait = 100; //delay for the LED ring light sequence
 
 #include "SparkFun_SCD30_Arduino_Library.h"
@@ -45,15 +45,15 @@ rgb_lcd lcd;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(20, 6, NEO_GRB + NEO_KHZ800);
 
 
-//data is 0 to 19 corresponding to psi of 0 to 200
+//data is 0 to 19 
 void colorWipe(uint8_t data, uint8_t wait)
 {
   for (uint8_t i = 0; i <= data; i++)
   {
-    if (i <= 4) strip.setPixelColor(i, strip.Color(0, 255, 0)); //green psi:0-50
-    else if (i > 4 && i < 10) strip.setPixelColor(i, strip.Color(255, 255, 0)); //yellow psi:51-100
-    else if (i >= 10 && i < 15) strip.setPixelColor(i, strip.Color(255, 128, 0)); //orange psi:101-150
-    else strip.setPixelColor(i, strip.Color(255, 0, 0)); //red psi:>151
+    if (i <= 4) strip.setPixelColor(i, strip.Color(0, 255, 0)); 
+    else if (i > 4 && i < 10) strip.setPixelColor(i, strip.Color(255, 255, 0)); 
+    else if (i >= 10 && i < 15) strip.setPixelColor(i, strip.Color(255, 128, 0)); 
+    else strip.setPixelColor(i, strip.Color(255, 0, 0)); 
 
     strip.show();
     delay(wait);
@@ -141,7 +141,7 @@ void loop()
       lcd.print(" ppm");
 
       int data = constrain(CO2reading, lowerCO2bound, upperCO2bound);//constrain ppm
-      data = map(data, lowerCO2bound, upperCO2bound, 0, 19);//convert 380-450ppm to 0-19 leds
+      data = map(data, lowerCO2bound, upperCO2bound, 0, 19);//convert 0-19 leds
 
       strip.clear();
       strip.show();//turn off
